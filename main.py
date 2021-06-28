@@ -8,7 +8,7 @@ game = Game()
 background = pygame.image.load('assets/blackBox.png')
 
 
-pygame.display.set_caption('Chess game')
+pygame.display.set_caption('Bevilacqua Warren Chess Game')
 screen = pygame.display.set_mode((1080, 720))
 
 running = True
@@ -32,18 +32,16 @@ while running:
             pygame.quit()
             quit()
 
+        elif event.type == pygame.MOUSEBUTTONUP: # quand je relache le bouton                if event.button == 1: # 1= clique gauche                    if 100<event.pos[0]<200: # création d'un carré 100x100                        
+            for area in game.board.areas:
+                if game.board.areas.get(area)[0][0] <= event.pos[0] <= game.board.areas.get(area)[0][1] and game.board.areas.get(area)[1][0] <= event.pos[1] <= game.board.areas.get(area)[1][1]:                            
+                    print(area)
 
-        # def principale():<br>    
-        # stop = False<br>    
-        # while not stop:<br>        
-        # for event in pygame.event.get():<br>            
-        # if event.type ==pygame.QUIT:<br>                
-        # stop = True       <br><br>            
-        # elif event.type == MOUSEBUTTONUP: # quand je relache le bouton<br>                if event.button == 1: # 1= clique gauche<br>                    if 100<event.pos[0]<200: # création d'un carré 100x100<br>                        
-        # if 100<event.pos[1]<200:<br>                            
-        # print("hello")
 
-#         clickable_area = pygame.Rect((100, 100), (100, 100))
+
+
+
+# clickable_area = pygame.Rect((100, 100), (100, 100))
 # rect_surf = pygame.Surface(clickable_area.size)
 # rect_surf.fill(COLORS[color_index])
  
