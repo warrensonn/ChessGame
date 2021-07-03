@@ -1,60 +1,61 @@
 from game import Game
 import pygame
+from Pieces.piece import Piece
 
 pygame.init()
 game = Game()
-
-# on charge les images de fond
-background = pygame.image.load('assets/blackBox.png')
 
 
 pygame.display.set_caption('Bevilacqua Warren Chess Game')
 screen = pygame.display.set_mode((1080, 720))
 
+BLACK = pygame.Color(0,0,0)
+
 running = True
 
 while running: 
     
-    screen.blit(background, (0, 0))          # on injecte l'image sur l'écran  
-    # screen.blit(game.piece.image, (140, 50)) 
+    screen.fill(BLACK)         # on injecte l'image sur l'écran  
 
     game.update(screen)
     
     pygame.display.flip() 
 
-    for event in pygame.event.get():            # tous les évènements du joueur 
+    for event in pygame.event.get(): 
 
-        if event.type == pygame.KEYDOWN:        # si le joueur utilise une touche du clavier
-            print("oui")
-
-        elif event.type == pygame.QUIT:         # si le joueur veut quitter
+        if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             quit()
 
-        elif event.type == pygame.MOUSEBUTTONUP: # quand je relache le bouton                if event.button == 1: # 1= clique gauche                    if 100<event.pos[0]<200: # création d'un carré 100x100                        
-            for area in game.board.areas:
-                if game.board.areas.get(area)[0][0] <= event.pos[0] <= game.board.areas.get(area)[0][1] and game.board.areas.get(area)[1][0] <= event.pos[1] <= game.board.areas.get(area)[1][1]:                            
-                    print(area)
 
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if isinstance(game.selectedBox, Piece):
 
+                for area in game.board.areas:   # Mettre en fonction
+                    if game.board.areas.get(area)[0][0] <= event.pos[0] <= game.board.areas.get(area)[0][1] and game.board.areas.get(area)[1][0] <= event.pos[1] <= game.board.areas.get(area)[1][1]:   
+                        selectedArea = area  # = à un nom de case style a1 a2 etc
+                
+                if game.selectedBox.isPossibleMove(selectedArea) == True:
+                    game.selectedBox.position = selectedArea
+                    game.selectedBox = False 
+                    print("Au tour des", game.turn)
+                else:
+                    print(game.selectedBox.isPossibleMove(selectedArea))
+                    game.selectedBox = False
 
+            else:
+                for area in game.board.areas:
+                    if game.board.areas.get(area)[0][0] <= event.pos[0] <= game.board.areas.get(area)[0][1] and game.board.areas.get(area)[1][0] <= event.pos[1] <= game.board.areas.get(area)[1][1]:   
+                        selectedArea = area
 
+                try:
+                    for piece in game.all_Pieces:
+                        if piece.position == selectedArea and piece.team == game.turn:
+                            game.selectedBox = piece
+                            game.possibleMoves = game.selectedBox.possibleMoves()
+                        elif piece.position == selectedArea and piece.team != game.turn:
+                            print("C'est au tour des", game.turn)
+                except NameError:
+                    selectedArea = False
 
-# clickable_area = pygame.Rect((100, 100), (100, 100))
-# rect_surf = pygame.Surface(clickable_area.size)
-# rect_surf.fill(COLORS[color_index])
- 
-# while not stop:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             stop = True
-         
-#         elif event.type == MOUSEBUTTONUP: # quand je relache le bouton
-#             if event.button == 1: # 1= clique gauche
-#                 if clickable_area.collidepoint(event.pos):
-#                     color_index = (color_index + 1) % 3
-#                     rect_surf.fill(COLORS[color_index])
-     
-#     screen.fill(0) # On efface tout l'écran
-#     screen.blit(rect_surf, clickable_area)
