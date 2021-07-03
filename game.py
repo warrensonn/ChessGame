@@ -21,8 +21,6 @@ class Game:
         self.blackKingPosition = self.BlackKing.intPosition
         self.whiteKingPosition = self.WhiteKing.intPosition
 
-    def die(self, piece):
-        self.all_Pieces.remove(piece)
 
         
     def update(self, screen):
