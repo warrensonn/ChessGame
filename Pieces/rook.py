@@ -5,6 +5,7 @@ class Rook(Piece): # Tour
 
     def __init__(self, game, image, color, position, name):
         super().__init__(game, image, color, position, name)
+        self.hasMoved = False
         self.game.all_Pieces.add(self)
 
     def possibleMoves(self):
