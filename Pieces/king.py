@@ -5,6 +5,7 @@ class King(Piece):
 
     def __init__(self, game, image, color, position, name):
         super().__init__(game, image, color, position, name)
+        self.hasMoved = False
         self.game.all_Pieces.add(self)
 
     def possibleMoves(self):
@@ -79,4 +80,54 @@ class King(Piece):
             if empty == True:
                 moves.append((self.intPosition[0]+1, self.intPosition[1]))
 
+        # PETIT ET GRAND ROQUE
+        if self.team == "black" and self.hasMoved == False:
+            if self.game.BlackRook2.hasMoved == False:
+                self.KingSideCastle(moves)
+            if self.game.BlackRook1.hasMoved == False:
+                self.queenSideCastle(moves)
+        elif self.team == "white" and self.hasMoved == False:
+            if self.game.WhiteRook2.hasMoved == False:
+                self.KingSideCastle(moves)
+            if self.game.WhiteRook1.hasMoved == False:
+                self.queenSideCastle(moves)
+
         return moves
+
+
+
+    # GRAND ROQUE
+    def queenSideCastle(self, list):
+        possible = True
+        
+        if self.team == "black":
+            for piece in self.game.all_Pieces:
+                if piece.position == "b8" or piece.position == "c8" or piece.position == "d8":
+                    possible = False     
+
+        else:
+            for piece in self.game.all_Pieces:
+                if piece.position == "b1" or piece.position == "c1" or piece.position == "d1":
+                    possible = False
+            
+        if possible:
+            list.append((self.intPosition[0]-2, self.intPosition[1]))
+
+    # PETIT ROQUE
+    def KingSideCastle(self, list):
+        possible = True
+        
+        if self.team == "black":
+            for piece in self.game.all_Pieces:
+                if piece.position == "f8" or piece.position == "g8":
+                    possible = False     
+
+        else:
+            for piece in self.game.all_Pieces:
+                if piece.position == "f1" or piece.position == "g1":
+                    possible = False
+            
+        if possible:
+            list.append((self.intPosition[0]+2, self.intPosition[1]))
+
+        
