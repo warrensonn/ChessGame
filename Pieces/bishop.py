@@ -14,7 +14,6 @@ class Bishop(Piece): # Fou
         n = self.intPosition[0]+1
         q = self.intPosition[1]+1
 
-
         while empty == True and n < 9 and q < 9:  # Ajoute à moves les déplacements possibles vers la gauche
             for piece in self.game.all_Pieces:
                 if piece.intPosition[0] == n and piece.intPosition[1] == q:
@@ -72,3 +71,28 @@ class Bishop(Piece): # Fou
             q+=1
         
         return moves
+
+
+# memory = self.intPosition
+
+#         while empty == True and n < 9 and q < 9:  # Ajoute à moves les déplacements possibles vers la gauche
+#             for piece in self.game.all_Pieces:
+#                 if piece.intPosition[0] == n and piece.intPosition[1] == q:
+#                     empty = False
+#                     self.intPosition = piece.intPosition
+#                     if piece.team != self.team:
+#                         for piece1 in self.game.all_Pieces:
+#                             if piece1.team != self.team:
+#                                 possible.extend(piece1.possibleMoves())
+#                         if self.team == "black":
+#                             if self.game.blackKingPosition not in possible:
+#                                 moves.append(piece.intPosition)
+#                         else:
+#                             if self.game.whiteKingPosition not in possible:
+#                                 moves.append(piece.intPosition)
+#                     self.intPosition = memory
+                    
+#             if empty == True:
+#                 moves.append((n, q))
+#             n+=1
+#             q+=1
