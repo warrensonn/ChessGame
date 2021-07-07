@@ -20,8 +20,6 @@ class Piece(pygame.sprite.Sprite):
         self.rect.y = self.game.board.position.get(self.position)[1]
         self.intPosition = self.game.board.intPosition.get(self.position)
 
-    # Verifier que le mouvement ne met pas en échec le roi allié avec boucle for sur all_Piece avec if piece.team != self.team
-    # ajouter dans liste tous les possibleMoves et vérifier qu'il n'y a pas la position du roi
     def isPossibleMove(self, area):     
         if self.game.board.intPosition.get(area) in self.possibleMoves():
             moves = []
@@ -32,8 +30,9 @@ class Piece(pygame.sprite.Sprite):
             self.game.whiteKingPosition = self.game.WhiteKing.intPosition
 
             for piece in self.game.all_Pieces:
-                if piece.team != self.team:
+                if piece.team != self.team and piece.intPosition != self.intPosition:
                     moves.extend(piece.possibleMoves())
+                    
             if self.team == "black":
                 if self.game.blackKingPosition in moves:
                     check = True
@@ -44,12 +43,6 @@ class Piece(pygame.sprite.Sprite):
             self.intPosition = memory
 
             if check == False:
-                if self.game.turn == "black":
-                    self.game.turn = "white"
-                else:
-                    self.game.turn = "black"
-
-                self.eating(area)
                 return True
             
             else:
@@ -57,8 +50,3 @@ class Piece(pygame.sprite.Sprite):
         
         else:
             return "Déplacement non autorisé"
-
-    def eating(self, area): 
-        for piece in self.game.all_Pieces:
-            if piece.position == area:
-                self.game.all_Pieces.remove(piece)
